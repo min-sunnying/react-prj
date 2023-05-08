@@ -27,11 +27,11 @@ function App() {
   return (
     <div className="container">
       <div className="left-panel">
-        <h1>Left Panel</h1>
+        <h1>Student List</h1>
         <PeopleList people={people} selectedPerson={selectedPerson} onSelectPerson={handleSelectPerson} />
       </div>
       <div className="right-panel">
-        <h1>Right Panel</h1>
+        <h1>Chatroom</h1>
         <ChatHistory messages={messages} selectedPerson={selectedPerson} />
       </div>
     </div>
