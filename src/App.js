@@ -1,8 +1,18 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import './App.css';
 import { PeopleList, ChatHistory} from './chatroom';
+import axios from 'axios';
 
 function App() {
+  const [data, setData] = useState([]);
+  useEffect(() => {
+    const fetchData = async () => {
+      const result = await axios('/api/data');
+      setData(result.data);
+    };
+    fetchData();
+  }, []);
+
   const [people, setPeople] = useState([
     { id: 1, name: 'Alice' },
     { id: 2, name: 'Bob' },
@@ -24,6 +34,8 @@ function App() {
     const handleSelectPerson = (person) => {
     setSelectedPerson(person);
     }
+
+  //Show data
   return (
     <div className="container">
       <div className="left-panel">
@@ -33,7 +45,16 @@ function App() {
       <div className="right-panel">
         <h1>Chatroom</h1>
         <ChatHistory messages={messages} selectedPerson={selectedPerson} />
+
       </div>
+      <div>
+      {data.map((item) => (
+        <div key={item.id}>
+          <h2>{item.title}</h2>
+          <p>{item.description}</p>
+        </div>
+      ))}
+    </div>
     </div>
   );
 }

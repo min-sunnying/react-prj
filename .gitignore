@@ -5,11 +5,12 @@
 /.pnp
 .pnp.js
 /backend/node_modules
+/backend/studentJSON.json
 
 
 # testing
 /coverage
-/backend/index.js
+/backend/mongodbread.js
 
 # production
 /build
