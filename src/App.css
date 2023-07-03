@@ -44,10 +44,26 @@
 
 .left-panel {
   width: 50%;
-  background-color: #f0f0f0;
+  background-color: #ffffff;
 }
 
 .right-panel {
   width: 50%;
-  background-color: #d0d0d0;
+  background-color: #ffffff;
+}
+
+.clickable-list ul {
+  list-style: none;
+  padding: 0;
+}
+
+.clickable-list li {
+  padding: 10px;
+  cursor: pointer;
+  background-color: #f0f0f0;
+  margin-bottom: 5px;
+}
+
+.clickable-list li:hover {
+  background-color: #e0e0e0;
 }

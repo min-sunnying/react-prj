@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import './App.css';
 import axios from 'axios';
+import { PeopleList, ChatHistory } from './chatroom';
 
 function App() {
   const [data, setData] = useState([]);
@@ -14,6 +15,7 @@ function App() {
       });
   }, []);
 
+  console.log(data)
 
   // const [people, setPeople] = useState([
   //   { id: 1, name: 'Alice' },
@@ -62,14 +64,23 @@ function App() {
   //   </div>
   // );
   return(
-        <div>
-        <h1>Node.js에서 처리한 데이터</h1>
-        <ul>
-          {data.map(item => (
-            <li key={item._id}>{item.studentID}</li>
-          ))}
-        </ul>
-        </div>
+    <div className='container'>
+      <div className='left-panel'>
+      <h2>Student List</h2>
+      <ul className='clickable-list'>
+        {data.map(item => (
+          <li key={item._id}>{item.studentID} | {item.class_name} | {item.email}</li>
+        ))}
+      </ul>
+      </div>
+      
+      <div className='right-panel'>
+      <h2>Chatlog</h2>
+      {data.map(item=>(
+        <li key={item._id}>{JSON.stringify(item.dialog_history_user)}</li>
+      ))}
+      </div>
+    </div>
   );
 }
 
