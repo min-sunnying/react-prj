@@ -18,9 +18,7 @@ let chatlog=[]
 let c=0
 
 for (const jd of jsonData){
-  //console.log(jd)
-  let dialogHistoryUser = [];
-  let dialogHistorySystem = [];
+  let dialogHistoryUserSystem = [];
   console.log(jd.dialog_history)
   if (jd.dialog_history==undefined) {
     c++;
@@ -30,20 +28,21 @@ for (const jd of jsonData){
   
   for (const dialog of dialogHistory){
     const allHistory = dialog.all_history;
-    //console.log(allHistory[0])
-    //for (const history of allHistory[0]) {
+
       try{
         const user = allHistory[0][0].user;
         const system = allHistory[0][0].system;
         console.log(user)
 
-        dialogHistoryUser.push({
+        dialogHistoryUserSystem.push({
+          who: "user",
           db_session_key: dialog.db_session_key,
-          user_input: user.user_input,
+          response: user.user_input,
           created_at: user.created_at,
         });
       
-        dialogHistorySystem.push({
+        dialogHistoryUserSystem.push({
+          who: "system",
           db_session_key: dialog.db_session_key,
           response: system.response,
           created_at: system.created_at,
@@ -52,49 +51,36 @@ for (const jd of jsonData){
         const user = allHistory[0].user;
         const system = allHistory[0].system;
 
-        dialogHistoryUser.push({
+        dialogHistoryUserSystem.push({
+          who: "user",
           db_session_key: dialog.db_session_key,
-          user_input: user.user_input,
+          response: user.user_input,
           created_at: user.created_at,
         });
       
-        dialogHistorySystem.push({
+        dialogHistoryUserSystem.push({
+          who: "system",
           db_session_key: dialog.db_session_key,
           response: system.response,
           created_at: system.created_at,
         });
       };
-    //}
   }
   const data = {
     _id: jd._id,
     studentID: jd.studentID,
     email:jd.email, 
     class_name:jd.class_name,
-    dialog_history_user: dialogHistoryUser,
-    dialog_history_system: dialogHistorySystem,
+    dialog_history_user_system: dialogHistoryUserSystem,
   };
   chatlog.push(data)
-  console.log(data)
 }
 
 
 chatlog=JSON.stringify(chatlog)
 console.log(c)
 chatlog=JSON.parse(chatlog)
-//console.log(dialog_out(data.dialog_history))
 
-//json에서 원하는 데이터만 추출
-// const chatlog=data.map(person=>(
-//   {
-//     studentID:person.studentID, 
-//     email:person.email, 
-//     class_name:person.class_name,
-//     dialog_history_user: person.dialog_history_user,
-//     dialog_history_system: person.dialog_history_system,
-// }))
-//console.log(chatlog)
-//data send
 app.get('/api/data', (req, res) => {
   res.json(chatlog);
 });
