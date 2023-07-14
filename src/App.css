@@ -62,8 +62,42 @@
   cursor: pointer;
   background-color: #f0f0f0;
   margin-bottom: 5px;
+  list-style-type: none;
 }
 
 .clickable-list li:hover {
   background-color: #e0e0e0;
+}
+
+.clickable-list li.selected {
+  background-color: yellow;
+  /* 다른 스타일 속성들 */
+}
+
+.scrollable-section {
+  /* width: 300px; 
+  height: 200px;  */
+  overflow: scroll; 
+}
+
+.chat-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.message {
+  padding: 8px;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  max-width: 80%;
+}
+
+.message.user {
+  background-color: #F0F0F0;
+  align-self: flex-end;
+}
+
+.message.system {
+  background-color: #DCF8C6;
+  align-self: flex-start;
 }

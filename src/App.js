@@ -23,12 +23,12 @@ function App() {
 
   return(
     <div className='container'>
-      <div className='left-panel'>
+      <div className='left-panel scrollable-section'>
       <h2>Student List</h2>
       <PeopleList people={data} selectedPerson={selectedPerson} onSelectPerson={handleSelectPerson} />
       </div>
       
-      <div className='right-panel'>
+      <div className='right-panel scrollable-section'>
       <h2>Chatlog</h2>
       <Chatlog messages={data} selectedPerson={selectedPerson} />
       </div>

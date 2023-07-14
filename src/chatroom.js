@@ -8,7 +8,6 @@ function PeopleList({ people, selectedPerson, onSelectPerson }) {
           <li key={person._id} className={selectedPerson === person ? 'selected' : ''} onClick={() => onSelectPerson(person)}>
             {person.studentID} | {person.class_name} | {person.email}
           </li>
-
         ))}
       </ul>
     );
@@ -20,9 +19,9 @@ function PeopleList({ people, selectedPerson, onSelectPerson }) {
     try{chatMessages=chatMessages[0].dialog_history_user_system}
     catch{return;}
     return(
-      <div>
+      <div className='chat-container'>
         {chatMessages.map(message =>(
-          <div>
+          <div className={`message ${message.who}`}>
             <p>
               {message.response}
             </p>

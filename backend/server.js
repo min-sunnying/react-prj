@@ -21,18 +21,16 @@ for (const jd of jsonData){
   let dialogHistoryUserSystem = [];
   console.log(jd.dialog_history)
   if (jd.dialog_history==undefined) {
-    c++;
     continue;
   }
   let dialogHistory = jd.dialog_history;
   
   for (const dialog of dialogHistory){
     const allHistory = dialog.all_history;
-
+    for(const h of allHistory){
       try{
-        const user = allHistory[0][0].user;
-        const system = allHistory[0][0].system;
-        console.log(user)
+        const user = h[0].user;
+        const system = h[0].system;
 
         dialogHistoryUserSystem.push({
           who: "user",
@@ -48,8 +46,8 @@ for (const jd of jsonData){
           created_at: system.created_at,
         });
       }catch{
-        const user = allHistory[0].user;
-        const system = allHistory[0].system;
+        const user = h.user;
+        const system = h.system;
 
         dialogHistoryUserSystem.push({
           who: "user",
@@ -65,6 +63,7 @@ for (const jd of jsonData){
           created_at: system.created_at,
         });
       };
+    }
   }
   const data = {
     _id: jd._id,
