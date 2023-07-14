@@ -34,14 +34,16 @@ const Home = () => {
     return(
       <div className='container'>
         <h1>Raw Data</h1>
-        <div className='left-panel scrollable-section'>
-        <h2>Student List</h2>
-        <select value={filterClassName} onChange={handleFilterChange}>
-            <option value="">All</option>
-            <option value="sw">SW</option>
-            <option value="irw">IRW</option>
-        </select>
-        <PeopleList people={filteredPeople} selectedPerson={selectedPerson} onSelectPerson={handleSelectPerson} />
+        <div className='left-panel'>
+          <h2>Student List</h2>
+          <select value={filterClassName} onChange={handleFilterChange}>
+              <option value="">All</option>
+              <option value="sw">SW</option>
+              <option value="irw">IRW</option>
+          </select>
+          <div className='container scrollable-section'>
+          <PeopleList people={filteredPeople} selectedPerson={selectedPerson} onSelectPerson={handleSelectPerson} />
+          </div>
         </div>
         
         <div className='right-panel scrollable-section'>
