@@ -8,6 +8,7 @@ function PeopleList({ people, selectedPerson, onSelectPerson }) {
           <li key={person._id} className={selectedPerson === person ? 'selected' : ''} onClick={() => onSelectPerson(person)}>
             {person.studentID} | {person.class_name} | {person.email}
           </li>
+
         ))}
       </ul>
     );
