@@ -1,15 +1,18 @@
 import React from 'react';
 import './App.css'
 
+
 function PeopleList({ people, selectedPerson, onSelectPerson }) {
     return (
-      <ul className='clickable-list'>
+      <div>
+        <ul className='clickable-list'>
         {people.map(person => (
           <li key={person._id} className={selectedPerson === person ? 'selected' : ''} onClick={() => onSelectPerson(person)}>
             {person.studentID} | {person.class_name} | {person.email}
           </li>
         ))}
       </ul>
+      </div>
     );
   }
 
