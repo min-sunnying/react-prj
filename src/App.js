@@ -5,17 +5,17 @@ import { BrowserRouter as Router, Route, Link, Routes } from 'react-router-dom';
 import { List, ListItem, ListItemIcon, ListItemText, Drawer } from '@mui/material';
 import { Home as HomeIcon, Info as InfoIcon, Mail as MailIcon, Menu as MenuIcon } from '@mui/icons-material';
 
-import Home from './pages/Home';
+import Home from './pages/Chatlog';
 import About from './pages/About';
-import Contact from './pages/Contact';
+import Contact from './pages/Overview';
 
 const App = () => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   const menuItems = [
-    { text: 'Home', icon: <HomeIcon />, path: '/' },
+    { text: 'Chat Log', icon: <InfoIcon />, path: '/' },
     { text: 'About', icon: <InfoIcon />, path: '/about' },
-    { text: 'Contact', icon: <MailIcon />, path: '/contact' },
+    { text: 'Overview', icon: <HomeIcon />, path: '/overview' },
   ];
 
   const toggleDrawer = () => {
@@ -28,7 +28,7 @@ const App = () => {
       <Drawer variant="temporary" anchor="left" open={isDrawerOpen} onClose={toggleDrawer}>
           <List>
             {menuItems.map((item) => (
-              <ListItem key={item.text} component={Link} to={item.path} button>
+              <ListItem key={item.text} component={Link} to={item.path} >
                 <ListItemIcon>{item.icon}</ListItemIcon>
                 <ListItemText primary={item.text} />
               </ListItem>
@@ -42,7 +42,7 @@ const App = () => {
           <Routes>
           <Route exact path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
-          <Route path="/contact" element={<Contact />} />
+          <Route path="/overview" element={<Contact />} />
         </Routes>
         </div>
       </div>

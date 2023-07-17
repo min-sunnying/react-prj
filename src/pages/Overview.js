@@ -4,6 +4,7 @@ import Plot_S from '../charts/ChartComponent';
 const Contact = () => {
   const xValues = [1, 2, 3];
   const yValues = [2, 6, 3];
+
     return (
         <div>
           <h1>Chart Example</h1>
@@ -22,4 +23,3 @@ export default Contact;
 
 // #weekly 나누는 기준?
 
-// #plotly, chartjs 중에서 뭐쓸지!

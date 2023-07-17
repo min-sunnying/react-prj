@@ -1,16 +1,36 @@
 import React from 'react';
 import './App.css'
-
+import { DataGrid } from '@mui/x-data-grid';
 
 function PeopleList({ people, selectedPerson, onSelectPerson }) {
+  const columns = [
+    { field: 'studentID', headerName: 'ID', width: 200 },
+    { field: 'class_name', headerName: 'Class', width: 100 },
+    { field: 'email', headerName: 'Email', width: 200 },
+  ];
+
+  const rows = people.map((person) => ({ id: person._id, ...person }));
+
     return (
       <div>
         <ul className='clickable-list'>
-        {people.map(person => (
-          <li key={person._id} className={selectedPerson === person ? 'selected' : ''} onClick={() => onSelectPerson(person)}>
-            {person.studentID} | {person.class_name} | {person.email}
-          </li>
-        ))}
+        <div style={{ height: '100%', width: '100%' }}>
+        <DataGrid
+          // initialState={{
+          //   filter: {
+          //     filterModel: {
+          //       items: [],
+          //       quickFilterValues: ['quick', 'filter'],
+          //     },
+          //   },
+          // }}
+          rows={rows}
+          columns={columns}
+          pageSize={20}
+          onRowClick={(row) => onSelectPerson(row.row)}
+          rowClassName={(params) => (selectedPerson === params.row ? 'selected' : '')}
+        />
+      </div>
       </ul>
       </div>
     );
