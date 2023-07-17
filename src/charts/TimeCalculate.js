@@ -34,3 +34,20 @@ export function dateCompareWeek(dateString1, dateString2){
     }
 
   }
+
+  export function countCharacters(text) {
+    var count = 0;
+    
+    for (var i = 0; i < text.length; i++) {
+      var char = text.charAt(i);
+      
+      // 한글인지 확인
+      if (/[\uAC00-\uD7AF\u1100-\u11FF\u3130-\u318F]/.test(char)) {
+        count += 2; // 한글은 2글자로 계산
+      } else {
+        count += 1; // 그 외의 경우는 1글자로 계산
+      }
+    }
+    
+    return count;
+  }
