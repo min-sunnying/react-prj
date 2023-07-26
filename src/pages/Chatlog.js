@@ -14,6 +14,7 @@ const Home = () => {
           console.error(error);
         });
     }, []);
+    console.log(data)
   
     const [selectedPerson, setSelectedPerson] = useState(data);
       
