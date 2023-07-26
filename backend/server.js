@@ -84,4 +84,10 @@ app.get('/api/data', (req, res) => {
   res.json(chatlog);
 });
 
+fs.writeFile("chatLog.json", JSON.stringify(chatlog), function(err) {
+  if (err) {
+      console.log(err);
+  }
+});
+
 app.listen(8080, () => console.log('Server started on port 8080'));
