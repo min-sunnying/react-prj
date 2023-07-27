@@ -1,6 +1,5 @@
 import React from 'react';
 import Plot from 'react-plotly.js';
-import axios from 'axios';
 
 
 export default class Plot_S extends React.Component {
@@ -24,5 +23,4 @@ export default class Plot_S extends React.Component {
     );
   }
 }
-
 
