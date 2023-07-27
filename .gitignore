@@ -11,6 +11,8 @@
 /backend/chatlogJSON.json
 /backend/chatlogCSV.json
 
+#build
+/build
 
 # testing
 /coverage
