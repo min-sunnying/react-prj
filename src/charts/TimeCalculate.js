@@ -1,29 +1,34 @@
-export function dateToweek(createdDate){
-  if (createdDate < new Date(2023, 4, 5)){
+export function dateToweek(createdDateString){
+  let createdDate = new Date(createdDateString)
+  // Jan : 0
+  if (createdDate < (new Date(2023, 3, 5))){
     return 0;
   }
-  if (createdDate < new Date(2023, 4, 12)){
+  if (createdDate < (new Date(2023, 3, 12))){
     return 1;
   }
-  if (createdDate < new Date(2023, 4, 25)){
+  if (createdDate < (new Date(2023, 3, 25))){
     return 2;
   }
-  if (createdDate < new Date(2023, 5, 3)){
+  if (createdDate < (new Date(2023, 4, 3))){
     return 3;
   }
-  if (createdDate < new Date(2023, 5, 11)){
+  if (createdDate < (new Date(2023, 4, 11))){
     return 4;
   }
-  if (createdDate < new Date(2023, 5, 18)){
+  if (createdDate < (new Date(2023, 4, 18))){
+    //console.log(createdDate);
+
     return 5;
   }
-  if (createdDate < new Date(2023, 5, 25)){
+  if (createdDate < (new Date(2023, 4, 25))){
+
     return 6;
   }
-  if (createdDate < new Date(2023, 6, 1)){
+  if (createdDate < (new Date(2023, 5, 1))){
     return 7;
   }
-  if (createdDate < new Date(2023, 6, 8)){
+  if (createdDate < (new Date(2023, 5, 8))){
     return 8;
   }else{
     return 9;

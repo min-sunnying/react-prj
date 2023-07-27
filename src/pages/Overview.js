@@ -3,12 +3,13 @@ import Plot from 'react-plotly.js';
 
 //import Plot_S from '../charts/ChartComponent';
 import axios from 'axios';
-import { dateToweek } from '../charts/TimeCalculate';
+import { dateToweek, countCharacters } from '../charts/TimeCalculate';
 
 
 
 const Contact = () => {
 
+  // # get Data from sever
   const [chatLog, setData] = useState([]);
   useEffect(() => {
     axios.get('http://localhost:8080/api/data')
@@ -19,18 +20,19 @@ const Contact = () => {
         console.error(error);
       });
   }, []);
-  //console.log(chatLog)
-  
-  
+    
+
+  // # Data Processing
   let chatLogWeek = chatLog.map((e)=>{
-      let singleUserChat = e["dialog_history_user_system"].map((userCall) =>{
-          const createdDate = new Date(userCall["created_at"]);
+      let singleUserChat = e["dialog_history_user_system"].map((userCall, idx) =>{
           if (userCall["who"] == "user"){
-            return {"response": userCall["response"], "week": dateToweek(createdDate)}
-          }        
-        }).filter((element) => element !== undefined);;
-      //console.log(e["dialog_history_user_system"])
-      //e["dialog_history_user_system"]
+            return {"response": userCall["response"] ,
+                    "week": dateToweek(userCall["created_at"]), 
+                    "rating" : e["dialog_history_user_system"][idx+1]["rating"]}
+          }
+          //return {"rating": userCall["rating"]}        
+        }).filter((element) => element !== undefined);
+     
       return {
         "stuentID" : e["studentID"], 
         "chatLog" : singleUserChat
@@ -44,27 +46,44 @@ const Contact = () => {
   let chartData = {
     "week": [0,1,2,3,4,5,6,7,8,9], // 4.5 ~ 4.11 week 1 ~~ week 8 6/1~6/7
     "callNum" : [0,0,0,0,0,0,0,0,0,0],
-    "length" : [0,0,0,0,0,0,0,0,0,0],
-    "satisfaction" : []
+    "length" : [[],[],[],[],[],[],[],[],[],[]],
+    "satisfaction" : [[],[],[],[],[],[],[],[],[],[]],
   }
   
   for (let userLog of chatLogWeek){
     for (let message of userLog["chatLog"]){
-      
       chartData["callNum"][message["week"]] ++;
-      chartData["length"][message["week"]] +=  message["response"].length;
+      chartData["length"][message["week"]].push(countCharacters(message["response"]));
+      if (message["rating"] != undefined){
+        //console.log(message["rating"])
+        chartData["satisfaction"][message["week"]].push(message["rating"]);
+      }
     }
   }
-  
 
-  for (let i = 0;i++; i<10){
-    chartData["length"][i] = chartData["length"][i]/chartData["callNum"][i]
+  let satisfactionData = []
+  for (let i = 0; i<5;i++){
+    let satisfactionTemp = [0,0,0,0,0,0,0,0];
+    for (let week = 0 ; week<8; week ++){
+      for (let e of chartData["satisfaction"].slice(1,9)[week]){
+        if (e==i){
+          satisfactionTemp[week]++
+        }
+      }
+    }
+    
+    satisfactionData.push({
+      x: satisfactionTemp,
+      y: chartData["week"].slice(1,9),
+      type: 'bar',
+      name: "rating:"+ (i+1),
+      orientation : 'h',
+      //text:satisfactionTemp.map((value) => `${value}`),
+      hovertemplate: satisfactionTemp.map((value) => `${value}`)
+    })
   }
+  console.log(satisfactionData)
   
-  //console.log(chartData);
-
-
-
     return (
         <div>
           <h1>Overview</h1>
@@ -77,11 +96,12 @@ const Contact = () => {
                   type: 'scatter',
                   mode: 'lines+markers',
                   marker: { color: 'red' },
+                  name: '',
                   hovertemplate: 'callCount: %{y}'
                 },
               ]}
-              layout={{ width: 720, height: 480, title: 'System usage pattern(call number)' ,
-                      xaxis : {title: "week",tickvals: chartData["week"]}, yaxis:{title: "call"}}
+              layout={{ width: '100%', height: 480, title: 'System usage pattern(call number)' ,
+                      xaxis : {title: "week",tickvals: chartData["week"].slice(1,9)}, yaxis:{title: "call",range:[0,500]}}
                     }
             />
           </div>
@@ -90,29 +110,31 @@ const Contact = () => {
               data={[
                 {
                   x: chartData["week"].slice(1,9),
-                  y: chartData["length"].slice(1,9),
+                  y: chartData["length"].slice(1,9).map((e)=>{
+                    let sum = 0;
+                    for (let i of e){
+                      sum += i
+                    }
+                    return sum/e.length
+                  }),
                   type: 'bar',
-                  marker: { color: 'red' },
+                  marker: { color: 'blue' },
+                  name: '',
                   hovertemplate: 'Average Length: %{y}'
                 },
               ]}
-              layout={{  width: 720, height: 480, title: 'Length of each prompt',
-                      xaxis : {title: "week",tickvals: chartData["week"]}, yaxis:{title: "Length (avg)"}}
+              layout={{  width: '100%', height: 480, title: 'Length of each prompt',
+                      xaxis : {title: "week",tickvals: chartData["week"].slice(1,9)}, yaxis:{title: "Length (avg)"}}
                     }
             />
           </div>
           <div className="plot-container">
             <Plot
-              data={[
-                {
-                  x: chartData["week"],
-                  y: chartData["callNum"],
-                  type: 'scatter',
-                  mode: 'lines+markers',
-                  marker: { color: 'red' },
-                },
-              ]}
-              layout={{ width: window.width, height: window.height/4, title: 'Answer satisfaction distribution between weeks' }}
+              data = {satisfactionData}
+              layout={{ width: '100%', height: 480, title: 'System usage pattern(call number)' ,
+                      barmode:'stack',barnorm:"percent",boxgap:0.2,
+                      xaxis : {title: ""}, yaxis:{title: "week",tickvals: chartData["week"].slice(1,9)}}
+            }
             />
           </div>
 
