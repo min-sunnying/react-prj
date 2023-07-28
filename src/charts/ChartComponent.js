@@ -50,10 +50,10 @@ const ChartComponent = (props) =>{
             break;
         case 'individual':
             chatLogWeek = chatLogWeek.filter((e)=> e["studentID"] == filterID);
-            console.log(chatLogWeek);
+            //console.log(chatLogWeek);
             break;
         default:
-            console.log(filterMode)
+            console.log(filterMode + ' is wrong input')
         
     }
 

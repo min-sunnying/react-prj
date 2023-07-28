@@ -13,7 +13,7 @@ const Contact = () => {
     return (
         <div>
           <h1>Overview</h1>
-          <ChartComponent filterMode='class' filterID="aw"></ChartComponent>
+          <ChartComponent filterMode='individual' filterID="20214848"></ChartComponent>
 
         </div>
       );
