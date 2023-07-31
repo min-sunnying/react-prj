@@ -130,7 +130,7 @@ const ChartComponent = (props) =>{
                 
               }
               layout={{  width: '100%', height: 480, title: 'Length of each prompt',
-                      xaxis : {title: "week"}, yaxis:{title: "Length (avg)",range:[0,2000]}}
+                      xaxis : {title: "week"}, yaxis:{title: "Length (avg)",type:'log',range:[0,5]}}
                     }
             />
           </div>
