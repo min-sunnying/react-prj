@@ -40,7 +40,7 @@ const ChartComponent = (props) =>{
         }
     )
    
-    // * Filtering
+    // * Filteria
     switch (filterMode){
         case 'all':
             break;
