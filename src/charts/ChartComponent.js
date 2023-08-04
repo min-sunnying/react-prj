@@ -138,7 +138,7 @@ const ChartComponent = (props) =>{
           <div className="plot-container">
             <Plot
               data = {satisfactionData}
-              layout={{ width: '100%', height: 480, title: 'System usage pattern(call number)' ,
+              layout={{ width: '100%', height: 480, title: 'Ratings' ,
                       barmode:'stack',barnorm:"percent",boxgap:0.2,
                       xaxis : {title: ""}, yaxis:{title: "week",tickvals: chartData["week"].slice(1,9)}}
             }
