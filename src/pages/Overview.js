@@ -8,33 +8,12 @@ import ChartComponent from '../charts/ChartComponent';
 
 
 const Contact = () => {
-  const [textA, setTextA] = useState('');
-
-  const onChangeA = (e) => {
-    setTextA(e.target.value);
-  };
-
-  const onResetA = () => {
-    setTextA('');
-  };
-  const [textB, setTextB] = useState('');
-
-  const onChangeB = (e) => {
-    setTextB(e.target.value);
-  };
-
-  const onResetB = () => {
-    setTextB('');
-  };
+ 
 
     return (
         <div>
           <h1>Overview</h1>
-          <input onChange={onChangeA} value={textA}  />
-          <input onChange={onChangeB} value={textB}  />
-          <ChartComponent 
-            filterMode={textA} 
-            filterID={textB}/>
+          <ChartComponent/>
         </div>
       );
 };
