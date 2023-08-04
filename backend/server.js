@@ -118,16 +118,16 @@ chatlog=JSON.stringify(chatlog, null, 2)
     // }
 
 console.log(c)
-chatlog=JSON.parse(chatlog)
+// chatlog=JSON.parse(chatlog)
 
 app.get('/api/data', (req, res) => {
   res.json(chatlog);
 });
 
-fs.writeFile("chatLog.json", JSON.stringify(chatlog), function(err) {
-  if (err) {
-      console.log(err);
-  }
-});
+// fs.writeFile("chatLog.json", JSON.stringify(chatlog), function(err) {
+//   if (err) {
+//       console.log(err);
+//   }
+// });
 
 app.listen(8080, () => console.log('Server started on port 8080'));
