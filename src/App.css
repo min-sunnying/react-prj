@@ -101,3 +101,11 @@
   background-color: #DCF8C6;
   align-self: flex-start;
 }
+
+.plot-wrapper{
+  display : inline;
+}
+
+.plot-container{
+  display: block;
+}

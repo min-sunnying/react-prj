@@ -5,7 +5,17 @@ import axios from 'axios';
 import { dateToweek, countCharacters } from '../charts/TimeCalculate';
 
 const ChartComponent = (props) =>{
-    const {filterMode, filterID} = props;
+    const [filterMode, setfilterMode] = useState('all');
+    const [filterID, setfilterID] = useState('');
+    const onChangeA = (e) => {
+      setfilterMode(e.target.value);
+    };
+    const onChangeB = (e) => {
+      setfilterID(e.target.value);
+    };
+
+  
+    //const {filterMode, filterID} = props;
         // mode: 'all'(defailt), 'class', 'individual'
         // ID: 'sw' or 'studentID'
         // # get Data from sever
@@ -40,9 +50,27 @@ const ChartComponent = (props) =>{
         }
     )
    
-    // * Filteria
+    //Get all class name and studentID
+    const classNames = [];
+    const studentIDs = [];
+
+    // Iterate through chatLogWeek to extract class names and student IDs
+    chatLogWeek.forEach(userLog => {
+      const className = userLog.className;
+      const studentID = userLog.studentID;
+      
+      // Add class name and student ID to the respective arrays if they're not already added
+      if (!classNames.includes(className)) {
+        classNames.push(className);
+      }
+      if (!studentIDs.includes(studentID)) {
+        studentIDs.push(studentID);
+      }
+    });
+    // * Filter
     switch (filterMode){
         case 'all':
+            //console.log(filterMode)
             break;
         case 'class':
             chatLogWeek = chatLogWeek.filter((e)=> e["className"] == filterID);
@@ -80,27 +108,56 @@ const ChartComponent = (props) =>{
     for (let i = 0; i<5;i++){
         let satisfactionTemp = [0,0,0,0,0,0,0,0];
         for (let week = 0 ; week<8; week ++){
-        for (let e of chartData["satisfaction"].slice(1,9)[week]){
-            if (e==i){
-            satisfactionTemp[week]++
-            }
+          for (let e of chartData["satisfaction"].slice(1,9)[week]){
+              if (e==i){
+                if (i<2){
+                  satisfactionTemp[week] -=1
+                }else{
+                  satisfactionTemp[week]++
+                }
+                
+              }
+          }
         }
-        }
-        
+
         satisfactionData.push({
-        x: satisfactionTemp,
-        y: chartData["week"].slice(1,9),
+        y: satisfactionTemp,
+        x: chartData["week"].slice(1,9),
         type: 'bar',
         name: "rating:"+ (i+1),
-        orientation : 'h',
+       // orientation : 'h',
         //text:satisfactionTemp.map((value) => `${value}`),
-        hovertemplate: satisfactionTemp.map((value) => `${value}`)
+        hovertemplate: satisfactionTemp.map((value) => `${Math.abs(value)}`)
         })
     }
 
+       
+
     return (
-        <div>
-          <div className="plot-container">
+      <div>
+          <select onChange={onChangeA} value={filterMode}>
+            <option value="all">All</option>
+            <option value="class">Class</option>
+            <option value="individual">Individual</option>
+            {/* Add more options as needed */}
+          </select>
+            <select onChange={onChangeB} value={filterID} disabled = {filterMode == "all"}>
+              <option value="">Select an option...</option>
+              {filterMode === 'class'
+                ? classNames.map((className, index) => (
+                    <option key={index} value={className}>
+                      {className}
+                    </option>
+                  ))
+                : studentIDs.map((studentID, index) => (
+                    <option key={index} value={studentID}>
+                      {studentID}
+                    </option>
+               ))}
+            {/* Add more options as needed */}
+          </select>
+          <div className= "plot-container">
+          <div className="plot-wrapper">
             <Plot
               data={[
                 {
@@ -114,11 +171,11 @@ const ChartComponent = (props) =>{
                 },
               ]}
               layout={{ width: '100%', height: 480, title: 'System usage pattern(call number)' ,
-                      xaxis : {title: "week",tickvals: chartData["week"].slice(1,9)}, yaxis:{title: "call",range:[0,500]}}
+                      xaxis : {title: "week",tickvals: chartData["week"].slice(1,9)}, yaxis:{title: "call",range:[0, Math.max(...chartData.callNum)+20]}}
                     }
             />
           </div>
-          <div className="plot-container">
+          <div className="plot-wrapper">
             <Plot
               data={chartData["length"].map((e,idx)=>{
                 return{
@@ -130,22 +187,26 @@ const ChartComponent = (props) =>{
                 
               }
               layout={{  width: '100%', height: 480, title: 'Length of each prompt',
-                      xaxis : {title: "week"}, yaxis:{title: "Length (avg)",type:'log',range:[0,5]}}
+                      xaxis : {title: "week"}, yaxis:{title: "Length (avg)",type:'log',range:[0,Math.log10(Math.max(...chartData.length.flat()))+0.1]}}
                     }
             />
           </div>
 
-          <div className="plot-container">
+          <div className="plot-wrapper">
             <Plot
               data = {satisfactionData}
-              layout={{ width: '100%', height: 480, title: 'System usage pattern(call number)' ,
-                      barmode:'stack',barnorm:"percent",boxgap:0.2,
-                      xaxis : {title: ""}, yaxis:{title: "week",tickvals: chartData["week"].slice(1,9)}}
+              layout={{ width: '100%', height: 480, title: 'Ratings' ,
+                      barmode:'relative',boxgap:0.2,
+                      xaxis : {title: "week",tickvals: chartData["week"].slice(1,9)},
+                      // yaxis: { title: "Count", tickvals: [0, 1, 2, 3, 4, 5], ticktext: ['1', '2', '3', '4', '5', '3 (Center)'] }
+                      yaxis:{title: "rating"}
+                      }
             }
             />
           </div>
-
-        </div>
+          </div>
+      </div>
+        
       );
 }
 
