@@ -20,7 +20,7 @@ let c=0
 
 for (const jd of jsonData){
   let dialogHistoryUserSystem = [];
-  console.log(jd.dialog_history)
+  //console.log(jd.dialog_history)
   if (jd.dialog_history==undefined) {
     continue;
   }
@@ -122,6 +122,12 @@ chatlog=JSON.parse(chatlog)
 
 app.get('/api/data', (req, res) => {
   res.json(chatlog);
+});
+
+fs.writeFile("chatLog.json", JSON.stringify(chatlog), function(err) {
+  if (err) {
+      console.log(err);
+  }
 });
 
 app.listen(8080, () => console.log('Server started on port 8080'));

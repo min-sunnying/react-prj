@@ -8,7 +8,12 @@
 /backend/studentJSON.json
 /backend/studentJsoncopy.json
 /backend/chatlogJSON.json
+/backend/chatLog.json
+/backend/chatlogJSON.json
+/backend/chatlogCSV.json
 
+#build
+/build
 
 # testing
 /coverage

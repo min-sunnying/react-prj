@@ -1,3 +1,40 @@
+export function dateToweek(createdDateString){
+  let createdDate = new Date(createdDateString)
+  // Jan : 0
+  if (createdDate < (new Date(2023, 3, 5))){
+    return 0;
+  }
+  if (createdDate < (new Date(2023, 3, 12))){
+    return 1;
+  }
+  if (createdDate < (new Date(2023, 3, 25))){
+    return 2;
+  }
+  if (createdDate < (new Date(2023, 4, 3))){
+    return 3;
+  }
+  if (createdDate < (new Date(2023, 4, 11))){
+    return 4;
+  }
+  if (createdDate < (new Date(2023, 4, 18))){
+    //console.log(createdDate);
+
+    return 5;
+  }
+  if (createdDate < (new Date(2023, 4, 25))){
+
+    return 6;
+  }
+  if (createdDate < (new Date(2023, 5, 1))){
+    return 7;
+  }
+  if (createdDate < (new Date(2023, 5, 8))){
+    return 8;
+  }else{
+    return 9;
+  }
+}
+
 export function splitISO8601ToWeekly(dateString) {
     const date = new Date(dateString);
     const firstDayOfWeek = 0; // 원하는 첫 주의 시작 요일 (1: 월요일, 0: 일요일, ...)
